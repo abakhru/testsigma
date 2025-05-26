@@ -5,3 +5,6 @@ out/**
 bin/**
 logs/**
 *.zip
+.vscode/
+deploy/docker/db_data/
+deploy/docker/ts_data/
