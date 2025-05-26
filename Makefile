@@ -54,28 +54,28 @@ ui-lint:
 
 # Server (Maven)
 server-build:
-	cd server && ./mvnw -U clean install -DskipTests
+	cd server && ./mvnw -U clean install package -DskipTests
 
 server-test:
 	cd server && ./mvnw test
 
 # Automator (Maven)
 automator-build:
-	cd automator && ./mvnw -U -Dmaven.compiler.compilerArgs='-Xlint:unchecked -Xlint:deprecation' clean install -DskipTests
+	cd automator && ./mvnw -U -Dmaven.compiler.compilerArgs='-Xlint:unchecked -Xlint:deprecation' clean install package -DskipTests
 
 automator-test:
 	cd automator && ./mvnw test
 
 # Agent (Maven)
 agent-build: automator-build
-	cd agent && ./mvnw -U clean install -DskipTests
+	cd agent && ./mvnw -U clean install package -DskipTests
 
 agent-test:
 	cd agent && ./mvnw test
 
 # Agent-Launcher (Maven)
 agent-launcher-build:
-	cd agent-launcher && ./mvnw -U clean install -DskipTests
+	cd agent-launcher && ./mvnw -U clean install package -DskipTests
 
 agent-launcher-test:
 	cd agent-launcher && ./mvnw test

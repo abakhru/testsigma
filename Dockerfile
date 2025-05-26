@@ -1,27 +1,26 @@
-FROM centos:7
+FROM ubuntu:20.04
 WORKDIR /opt/app
 
-# Do not change this line position, because its used by the below nginx yum install command
-COPY deploy/docker/nginx.repo /etc/yum.repos.d/nginx.repo
+# Do not change this line position, because its used by the below nginx apt install command
+# COPY deploy/docker/nginx.repo /etc/apt/sources.list.d/nginx.list
 
-RUN yum -y update; yum clean all
-RUN yum install -y nginx-1.20.1; yum clean all
-RUN yum -y install openssl-devel openssl wget zip unzip dnf which; yum clean all
-RUN set -x && dnf install --nodocs java-11-openjdk -y && dnf autoremove -y && dnf clean all -y && rm -rf /var/cache/dnf
+RUN apt-get update && apt-get install -y nginx && apt-get clean
+RUN apt-get install -y openssl libssl-dev wget zip unzip && apt-get clean
+RUN apt-get install -y openjdk-11-jdk && apt-get clean
 
 RUN mkdir /etc/nginx/logs
 RUN mkdir /opt/app/lib
 RUN mkdir /opt/app/ts_data
 
 COPY deploy/docker/nginx.conf /etc/nginx/nginx.conf
-COPY deploy/docker/cacerts /usr/lib/jvm/jre/lib/security/
+COPY deploy/docker/cacerts /usr/lib/jvm/java-11-openjdk-amd64/lib/security/
 COPY deploy/docker/entrypoint.sh /opt/app/entrypoint.sh
 COPY ui/dist/testsigma-angular /opt/app/angular/
 COPY server/target/testsigma-server.jar /opt/app/testsigma-server.jar
 COPY server/target/lib/ /opt/app/lib/
 COPY server/src/main/scripts/posix/start.sh /opt/app/
 
-RUN rm -f /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/sites-enabled/default
 RUN chmod +x /opt/app/start.sh
 RUN chmod +x /opt/app/entrypoint.sh
 
