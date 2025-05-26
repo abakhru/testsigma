@@ -1,12 +1,17 @@
-import { TestBed } from '@angular/core/testing';
+// @ts-ignore
 
+import { TestBed } from '@angular/core/testing';
 import { OnboardingGuard } from './onboarding.guard';
 
 describe('OnboardingGuard', () => {
   let guard: OnboardingGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: 'Compiler', useValue: { getComponentFromError: () => null } }
+      ]
+    });
     guard = TestBed.inject(OnboardingGuard);
   });
 

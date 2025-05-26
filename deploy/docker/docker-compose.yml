@@ -1,8 +1,9 @@
 version: "3.9"
 services:
   mysql:
-    image: mysql:5.7 # Replace with mysql:8.0.32 for m1
-    platform: linux/x86_64 # Replace with linux/arm64/v8 for m1
+    image: mysql:8.0.32 # Replace with mysql:8.0.32 for m1
+    # platform: linux/x86_64 # Replace with linux/arm64/v8 for m1
+    platform: linux/arm64/v8
     container_name: testsigma_mysql
     restart: always
     volumes:
@@ -19,8 +20,9 @@ services:
       test: out=$$(mysqladmin ping -h localhost -P 3306 -u root --password=root 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
       interval: 1s
       retries: 120
+  
   testsigma_server:
-    image: testsigmahq/server:v3.0.1 # Replace with testsigmahq/server:v3.0.1-m1 for m1
+    image: testsigmahq/server:v3.0.1-m1 # Replace with testsigmahq/server:v3.0.1-m1 for m1
     container_name: testsigma_server
     ports:
       - "9090:9090"
